@@ -23,6 +23,8 @@ export default function Home() {
   // const alteradorDeComunidades/setComunidades = comunidades[1];
   // const comunidades = ['Alurakut'];
   const pessoasFavoritas = [
+    'thiagoabreu72',
+    'EvandroOliveira495',
     'juunegreiros',
     'omariosouto',
     'peas',
