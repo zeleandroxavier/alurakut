@@ -16,7 +16,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
-    background-color: #D9E6F6;
+    background-image: url('https://images.freeimages.com/images/large-previews/a9f/clouds-1195867.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   #__next {
