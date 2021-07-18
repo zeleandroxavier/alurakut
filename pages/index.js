@@ -29,16 +29,16 @@ function ProfileRelationsBox(propriedades) {
         {propriedades.title} ({propriedades.items.length})
       </h2>
       <ul>
-        {/* {seguidores.map((itemAtual) => {
+      {propriedades.items.sort(() => Math.random() - 0.5).slice(0, 6).map((itemAtual) =>{
           return (
-            <li key={itemAtual}>
-              <a href={`https://github.com/${itemAtual}.png`}>
-                <img src={itemAtual.image} />
-                <span>{itemAtual.title}</span>
-              </a>
-            </li>
+            <li key={itemAtual.login}>
+            <a href={`${itemAtual.html_url}`}>
+              <img src={`${itemAtual.html_url}.png`} />
+              <span>{itemAtual.login}</span>
+            </a>
+          </li>
           )
-        }) */}
+        })}
       </ul>
     </ProfileRelationsBoxWrapper>
   )
@@ -176,7 +176,7 @@ export default function Home() {
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
           <ProfileRelationsBox title="Seguidores" items={seguidores} />
-          <ProfileRelationsBoxWrapper>
+          <ProfileRelationsBoxWrapper title="Comunidades" item={comunidades}>
             <h2 className="smallTitle">
               Comunidades ({comunidades.length})
             </h2>
@@ -193,7 +193,7 @@ export default function Home() {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBoxWrapper>
+          <ProfileRelationsBoxWrapper title="Pessoas da comunidade">
             <h2 className="smallTitle">
               Pessoas da comunidade ({pessoasFavoritas.length})
             </h2>
