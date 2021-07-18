@@ -23,7 +23,7 @@ export default function LoginScreen() {
                 infosDoEvento.preventDefault();
                 // alert('Alguém clicou no botão!')
                 console.log('Usuário: ', githubUser)
-                fetch('https://alurakut-eight-silk.vercel.app/api/login', {
+                fetch('https://alurakut.vercel.app/api/login', {
                     method: 'POST',
                     headers: {
                        'Content-Type': 'application/json'  
