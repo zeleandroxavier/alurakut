@@ -223,9 +223,35 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   const cookies = nookies.get(context)
   const token = cookies.USER_TOKEN
-  const { githubUser } = jwt.decode(token);
+  //const { isAuthenticated } = await fetch("http://localhost:3000/api/auth", {
+  const { isAuthenticated } = await fetch("https://alurakut-eight-silk.vercel.app/api/auth", {
+    headers: {
+      Authorization: token,
+    }
+  })
+  .then((resposta) => resposta.json())
+   
+
+
+  if(!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  // const followers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
+  //   .then((res) => res.json())
+  //   .then(followers => followers.map((follower) => ({
+  //     id: follower.id,
+  //     name: follower.login,
+  //     image: follower.avatar_url,
+  //   })));
 
   //console.log('Token decodificado: ', jwt.decode(token))
+  const { githubUser } = jwt.decode(token);
 
   return {
     props: {
