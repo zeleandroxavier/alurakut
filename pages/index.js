@@ -40,9 +40,9 @@ export default function Home(props) {
     'thiagoabreu72', 'EvandroOliveira495', 'juunegreiros',
     'omariosouto',
     'peas',
-    'rafaballerini',
+    /*'rafaballerini',
     'marcobrunodev',
-    'felipefialho',
+    'felipefialho',*/
   ]
   const [seguidores, setSeguidores] = React.useState([]);
   // 0 - Pegar o array de dados do github 
@@ -90,6 +90,37 @@ export default function Home(props) {
 
   // 1 - Criar um box que vai ter um map, baseado nos items do array
   // que pegamos do GitHub
+
+  const handleCriaComunidade = async (e) => {
+    e.preventDefault();
+    
+    const dadosDoForm = new FormData(e.target);
+
+    console.log('Campo: ', dadosDoForm.get('title'));
+    console.log('Campo: ', dadosDoForm.get('image'));
+
+    
+    const comunidade = {
+      title: dadosDoForm.get('title'),
+      imageUrl: dadosDoForm.get('image'),
+      creatorSlug: usuarioAleatorio,
+    }
+
+    fetch('/api/comunidades', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(comunidade)
+    })
+    .then(async (response) => {
+      const dados = await response.json();
+      console.log(dados.registroCriado);
+      const comunidade = dados.registroCriado;
+      const comunidadesAtualizadas = [...comunidades, comunidade];
+      setComunidades(comunidadesAtualizadas)
+    })
+}
   
   return (
     <>
@@ -108,37 +139,7 @@ export default function Home(props) {
 
           <Box>
             <h2 className="subTitle">O que você deseja fazer?</h2>
-            <form onSubmit={function handleCriaComunidade(e) {
-                e.preventDefault();
-
-                
-                const dadosDoForm = new FormData(e.target);
-
-                console.log('Campo: ', dadosDoForm.get('title'));
-                console.log('Campo: ', dadosDoForm.get('image'));
-
-                
-                const comunidade = {
-                  title: dadosDoForm.get('title'),
-                  imageUrl: dadosDoForm.get('image'),
-                  creatorSlug: usuarioAleatorio,
-                }
-
-                fetch('/api/comunidades', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(comunidade)
-                })
-                .then(async (response) => {
-                  const dados = await response.json();
-                  console.log(dados.registroCriado);
-                  const comunidade = dados.registroCriado;
-                  const comunidadesAtualizadas = [...comunidades, comunidade];
-                  setComunidades(comunidadesAtualizadas)
-                })
-            }}>
+            <form onSubmit={handleCriaComunidade}>
              <div>
                 <input
                   placeholder="Qual vai ser o nome da sua comunidade?"
