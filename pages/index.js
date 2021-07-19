@@ -118,7 +118,7 @@ export default function Home(props) {
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box>
             <h1 className="title">
-              Bem vindo(a) 
+              Bem vindo(a) , { props.githubUser }
             </h1>
 
             <OrkutNostalgicIconSet />
@@ -128,11 +128,14 @@ export default function Home(props) {
             <h2 className="subTitle">O que você deseja fazer?</h2>
             <form onSubmit={function handleCriaComunidade(e) {
                 e.preventDefault();
+
+                
                 const dadosDoForm = new FormData(e.target);
 
                 console.log('Campo: ', dadosDoForm.get('title'));
                 console.log('Campo: ', dadosDoForm.get('image'));
 
+                
                 const comunidade = {
                   title: dadosDoForm.get('title'),
                   imageUrl: dadosDoForm.get('image'),
@@ -164,9 +167,9 @@ export default function Home(props) {
               </div>
               <div>
                 <input
-                  placeholder="Coloque uma URL para usarmos de capa"
+                  placeholder="Insira uma URL de imagem para usarmos como capa"
                   name="image"
-                  aria-label="Coloque uma URL para usarmos de capa"
+                  aria-label="Insira uma URL de imagem para usarmos como capa"
                 />
               </div>
 

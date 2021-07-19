@@ -2,10 +2,14 @@ import React from 'react';
 // Hook do NextJS
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
+import jwt from 'jsonwebtoken'
+import Head from 'next/head'
 
 export default function LoginScreen() {
   const router = useRouter();
   const [githubUser, setGithubUser] = React.useState(''); /*zeleandroxavier*/
+  
+  const [mensagem, setMensagem] = React.useState(false)
 
   return (
     <main style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -20,9 +24,10 @@ export default function LoginScreen() {
 
         <section className="formArea">
           <form className="box" onSubmit={(infosDoEvento) => {
-                infosDoEvento.preventDefault();
-                // alert('Alguém clicou no botão!')
-                console.log('Usuário: ', githubUser)
+                 infosDoEvento.preventDefault() // Tirar o comportamento padrão do navegador de atualizar a página ao clicar para submeter, garantindo o comportamento de SPA. 
+                 console.log('Usuário: ', githubUser)
+                 if (infosDoEvento.target[0].value.length > 0) {
+
                 fetch('https://alurakut.vercel.app/api/login', {
                     method: 'POST',
                     headers: {
@@ -39,15 +44,28 @@ export default function LoginScreen() {
                     })
                     router.push('/')
                 })
+            }
+            setTimeout(() => {
+                setMensagem(true)
+            }, 2500);
           }}>
             <p>
-              Acesse agora mesmo com seu usuário do <strong>GitHub</strong>!
-          </p>
+                Acesse agora mesmo com seu usuário do <strong>GitHub</strong>!
+            </p>
+            <h4 className='notFound'>
+                {
+                    mensagem
+                        ? 'O usuário que foi inserido é inválido'
+                        : ''
+                }
+            </h4>
             <input
                 placeholder="Usuário"
                 value={githubUser}
                 onChange={(evento) => {
+                    //console.log(evento.target.value)
                     setGithubUser(evento.target.value)
+                    console.log(githubUser)
                 }}
             />
             {githubUser.length === 0
