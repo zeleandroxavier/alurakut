@@ -50,6 +50,19 @@ const Box = styled.div`
       opacity: 1;
     }
   }
+  textarea {
+    font-family: sans-serif;
+    padding: 15px;
+    background-color: #F4F4F4;
+    color: #333333;
+    width: 100%;
+    border: 0;
+    margin-bottom: 5px;
+    border-radius: 5000px;
+    ::placeholder{
+      color: #353535;
+    }
+  }
   button {
     border: 0;
     padding: 8px 12px;

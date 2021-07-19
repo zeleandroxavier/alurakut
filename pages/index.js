@@ -1,28 +1,12 @@
 import React from 'react';
 import nookies from 'nookies';
 import jwt, { decode } from 'jsonwebtoken';
-import MainGrid from '../src/components/MainGrid'
-import Box from '../src/components/Box'
-import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
+import MainGrid from '../src/components/MainGrid';
+import Box from '../src/components/Box';
+import ProfileSidebar from '../src/components/ProfileSidebar';
+
+import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
-
-function ProfileSidebar(propriedades) {
-  return (
-    <Box as="aside">
-      <img src={`https://github.com/${propriedades.githubUser}.png`} style={{ borderRadius: '8px' }} />
-      <hr />
-
-      <p>
-        <a className="boxLink" href={`https://github.com/${propriedades.githubUser}`}>
-          @{propriedades.githubUser}
-        </a>
-      </p>
-      <hr />
-
-      <AlurakutProfileSidebarMenuDefault />
-    </Box>
-  )
-}
 
 function ProfileRelationsBox(propriedades) {
   return (
@@ -106,7 +90,7 @@ export default function Home(props) {
 
   // 1 - Criar um box que vai ter um map, baseado nos items do array
   // que pegamos do GitHub
-
+  
   return (
     <>
       <AlurakutMenu />
@@ -177,10 +161,30 @@ export default function Home(props) {
               </button>
             </form>
           </Box>
+              
+          <Box>
+            <div>
+              <h2 className="subTitle">Deixar um recado</h2>
+              <form onSubmit="">
+                <input type="text" name="from" placeholder="Seu nome" />
+                <textarea rows="3" name="message" placeholder="Deixe aqui o seu recado" aria-label="Deixe aqui o seu recado">
+
+                </textarea>
+                <button aria-label="enviar recado" disabled="">Enviar recado</button>
+              </form>
+              <br/>
+            </div>
+            <div>
+              <h2 className="subTitle">Recados Recentes</h2>
+              
+            </div>
+            
+          </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
          
           <ProfileRelationsBox title="Seguidores" items={seguidores} />
+
           <ProfileRelationsBoxWrapper title="Comunidades" item={comunidades}>
             <h2 className="smallTitle">
               Comunidades ({comunidades.length})
