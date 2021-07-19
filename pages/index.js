@@ -121,7 +121,37 @@ export default function Home(props) {
       setComunidades(comunidadesAtualizadas)
     })
 }
-  
+
+const handleCriaRecado = async (e) => {
+    e.preventDefault();
+
+    const dadosDoForm = new FormData(e.target);
+
+    console.log('Campo: ', dadosDoForm.get('nome'));
+    console.log('Campo: ', dadosDoForm.get('recado'));
+
+    const recado = {
+      nome : dadosDoForm.get('nome'),
+      recado : dadosDoForm.get('recado'),
+      creatorSlug: usuarioAleatorio,
+    }
+
+    fetch('/api/recados', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(recado)
+    })
+    .then(async (response) => {
+      const dados = await response.json();
+      console.log(dados.registroCriado);
+      const recado = dados.registroCriado;
+      //const comunidadesAtualizadas = [...comunidades, comunidade];
+      //setComunidades(comunidadesAtualizadas)
+    })
+
+}
   return (
     <>
       <AlurakutMenu />
@@ -166,9 +196,9 @@ export default function Home(props) {
           <Box>
             <div>
               <h2 className="subTitle">Deixar um recado</h2>
-              <form onSubmit="">
-                <input type="text" name="from" placeholder="Seu nome" />
-                <textarea rows="3" name="message" placeholder="Deixe aqui o seu recado" aria-label="Deixe aqui o seu recado">
+              <form onSubmit={handleCriaRecado}>
+                <input type="text" name="nome" placeholder="Seu nome" />
+                <textarea rows="3" name="recado" placeholder="Deixe aqui o seu recado" aria-label="Deixe aqui o seu recado">
 
                 </textarea>
                 <button aria-label="enviar recado" disabled="">Enviar recado</button>
