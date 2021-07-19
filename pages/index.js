@@ -117,9 +117,7 @@ export default function Home(props) {
         </div>
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box>
-            <h1 className="title">
-              Bem vindo(a) , { props.githubUser }
-            </h1>
+            <h1 className="title">Bem vindo(a) , { props.githubUser }</h1>
 
             <OrkutNostalgicIconSet />
           </Box>
@@ -170,6 +168,7 @@ export default function Home(props) {
                   placeholder="Insira uma URL de imagem para usarmos como capa"
                   name="image"
                   aria-label="Insira uma URL de imagem para usarmos como capa"
+
                 />
               </div>
 
@@ -180,6 +179,7 @@ export default function Home(props) {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+         
           <ProfileRelationsBox title="Seguidores" items={seguidores} />
           <ProfileRelationsBoxWrapper title="Comunidades" item={comunidades}>
             <h2 className="smallTitle">
@@ -198,6 +198,7 @@ export default function Home(props) {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
+
           <ProfileRelationsBoxWrapper title="Pessoas da comunidade">
             <h2 className="smallTitle">
               Pessoas da comunidade ({pessoasFavoritas.length})
