@@ -8,7 +8,7 @@ export default function ProfileSidebar(propriedades) {
         <hr />
   
         <p>
-          <a className="boxLink" href={`https://github.com/${propriedades.githubUser}`}>
+          <a className="boxLink" href={`https://github.com/${propriedades.githubUser}.png`}>
             @{propriedades.githubUser}
           </a>
         </p>

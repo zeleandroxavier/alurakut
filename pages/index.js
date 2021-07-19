@@ -4,7 +4,7 @@ import jwt, { decode } from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import ProfileSidebar from '../src/components/ProfileSidebar';
-
+//import Recado from '../src/components/Recado';
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
@@ -32,7 +32,8 @@ function ProfileRelationsBox(propriedades) {
 
 export default function Home(props) {
   const usuarioAleatorio = props.githubUser; /*Usuário do gitHub*/
-  const [comunidades, setComunidades] = React.useState([]);
+
+  
     // const comunidades = comunidades[0];
     // const alteradorDeComunidades/setComunidades = comunidades[1];
     // const comunidades = ['Alurakut'];
@@ -45,7 +46,10 @@ export default function Home(props) {
     'felipefialho',*/
   ]
   const [seguidores, setSeguidores] = React.useState([]);
-  // 0 - Pegar o array de dados do github 
+  const [comunidades, setComunidades] = React.useState([]);
+  const [recados, setRecados] = React.useState([]);
+
+    
   React.useEffect(function() {
     //GET
     fetch('https://api.github.com/users/zeleandroxavier/followers')
@@ -55,8 +59,7 @@ export default function Home(props) {
     .then(function(respostaCompleta) {
       setSeguidores(respostaCompleta);
     })
-    
-
+         
     // API GraphQL
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
@@ -66,27 +69,55 @@ export default function Home(props) {
         'Accept': 'application/json',
       },
       body: JSON.stringify({ "query": `query {
-        allCommunities {
-          id 
-          title
-          imageUrl
-          creatorSlug
+          allCommunities {
+            id 
+            title
+            imageUrl
+            creatorSlug
+          }
+        }`
+      })
+    })
+    .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
+    .then((respostaCompleta) => {
+      const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+      console.log(comunidadesVindasDoDato);
+      setComunidades(comunidadesVindasDoDato);
+    })
+    // .then(function (response) {
+    //   return response.json()
+    // })
+    
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': '7df1b11e1e6fffd885a7e7502b6935',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ "query": `query {
+        allRecados {
+          id
+          nome
+          recado
+          creatorslug
+        }
         }
       }` })
     })
     .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
     .then((respostaCompleta) => {
-      const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
-      console.log(comunidadesVindasDoDato)
-      setComunidades(comunidadesVindasDoDato)
-    })
-    // .then(function (response) {
-    //   return response.json()
-    // })
-  
+      //const recadosVindosDoDato =  respostaCompleta.data.allRecados;
+      //console.log(recadosVindosDoDato);
+      //setRecados(recadosVindosDoDato);
+    })      
+
   }, [])
 
+
+ 
   console.log('seguidores antes do return', seguidores);
+  console.log('recados antes do return', recados);
 
   // 1 - Criar um box que vai ter um map, baseado nos items do array
   // que pegamos do GitHub
@@ -130,7 +161,7 @@ const handleCriaRecado = async (e) => {
     console.log('Campo: ', dadosDoForm.get('nome'));
     console.log('Campo: ', dadosDoForm.get('recado'));
 
-    const recado = {
+    const recados = {
       nome : dadosDoForm.get('nome'),
       recado : dadosDoForm.get('recado'),
       creatorSlug: usuarioAleatorio,
@@ -141,20 +172,20 @@ const handleCriaRecado = async (e) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(recado)
+      body: JSON.stringify(recados)
     })
     .then(async (response) => {
       const dados = await response.json();
       console.log(dados.registroCriado);
       const recado = dados.registroCriado;
-      //const comunidadesAtualizadas = [...comunidades, comunidade];
-      //setComunidades(comunidadesAtualizadas)
+      const recadosAtualizadas = [...recados, recado];
+      setRecados(recadosAtualizadas)
     })
 
 }
   return (
     <>
-      <AlurakutMenu />
+      <AlurakutMenu githubUser={usuarioAleatorio}/>
       <MainGrid>
         {/* <Box style="grid-area: profileArea;"> */}
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
@@ -171,20 +202,10 @@ const handleCriaRecado = async (e) => {
             <h2 className="subTitle">O que você deseja fazer?</h2>
             <form onSubmit={handleCriaComunidade}>
              <div>
-                <input
-                  placeholder="Qual vai ser o nome da sua comunidade?"
-                  name="title"
-                  aria-label="Qual vai ser o nome da sua comunidade?"
-                  type="text"
-                  />
+                <input placeholder="Qual vai ser o nome da sua comunidade?" name="title" aria-label="Qual vai ser o nome da sua comunidade?" type="text" />
               </div>
               <div>
-                <input
-                  placeholder="Insira uma URL de imagem para usarmos como capa"
-                  name="image"
-                  aria-label="Insira uma URL de imagem para usarmos como capa"
-
-                />
+                <input placeholder="Insira uma URL de imagem para usarmos como capa" name="image" aria-label="Insira uma URL de imagem para usarmos como capa" />
               </div>
 
               <button>

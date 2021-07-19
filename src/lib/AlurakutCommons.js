@@ -184,7 +184,7 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
 // ================================================================================================================
 // AlurakutProfileSidebarMenuDefault
 // ================================================================================================================
-export function AlurakutProfileSidebarMenuDefault() {
+export function AlurakutProfileSidebarMenuDefault(githubUser) {
   return (
     <AlurakutProfileSidebarMenuDefault.Wrapper>
       <nav>
